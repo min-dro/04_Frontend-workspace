@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>필터링 관련 선택자 및 메소드</title>
+
+    <!-- 온라인 방식 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    
+    <h1>필터링 관련 선택자 및 메소드</h1>
+
+    <h3>* 필터 관련 선택자</h3>
+
+    <table border="1">
+        <tr>
+            <td>이름</td>
+            <td>혈액형</td>
+            <td>거주지</td>
+        </tr>
+        <tr>
+            <td>홍길동</td>
+            <td>A형</td>
+            <td>서울시</td>
+        </tr>
+        <tr>
+            <td>김영희</td>
+            <td>B형</td>
+            <td>경기도</td>
+        </tr>
+        <tr>
+            <td>박말순</td>
+            <td>O형</td>
+            <td>부산시</td>
+        </tr>
+        <tr>
+            <td colspan="2">총인원</td>
+            <td>3명</td>
+        </tr>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+
+            // 필터링 관련 선택자
+            // > first, last, even, odd
+
+            // tr 요소들 중에서 첫번째 요소만 선택
+            $("tr:first").css("backgroundColor", "black")
+                         .css("color", "white");
+
+            // tr 요소들 중에서 마지막 요소만 선택
+            $("tr:last").css({backgroundColor : "red", color : "white"});
+
+            // tr 요소들 중에서 짝수번째 요소들만 선택
+            $("tr:even").css("backgroundColor", "lightgray");
+            // > 요소를 셀 때에는 0부터 셈!!
+
+            // tr 요소들 중에서 홀수번째 요소들만 선택
+            $("tr:odd").css("backgroundColor", "yellow");
+
+        });
+    </script>
+
+    <br><br>
+
+    <hr>
+
+    <h3>* 필터링과 관련된 메소드 (호출하면 선택자 역할을 해줌)</h3>
+
+    <p>
+        - 기준이 되는 요소 중에서도 특정 요소들만 골라서 선택해주는 메소드 <br>
+        first(), last(), filter(), eq(), not()
+    </p>
+
+    <h4 class="test">test-1</h4>
+    <h4 class="test">test-2</h4>
+    <h4 class="test">test-3</h4>
+    <h4 class="test">test-4</h4>
+    <h4>test-5</h4>
+    <h4 class="test">test-6</h4>
+
+    <script>
+        jQuery(document).ready(function() {
+
+            // h4 요소들 중에 가장 처음 것을 선택
+            // $("h4:first")
+            $("h4").first().css("fontSize", "20px");
+
+            // h4 요소들 중에 가장 마지막 것을 선택
+            // $("h4:last")
+            $("h4").last().css("fontSize", "30px");
+
+            // h4 요소들 중에 클래스명이 test 인 것들만 선택
+            // $("h4[class=test]")
+            $("h4").filter(".test").html("ㅋㅋㅋㅋ");
+
+            // h4 요소들 중에 클래스명이 test 가 아닌 것들을 선택
+            $("h4").not(".test").css("color", "red");
+
+            // h4 요소들 중에 2번째 요소만 선택
+            $("h4").eq(2).text("eq 로 선택됨!!");
+            // > eq 또한 0 이 시작점임!!
+
+            // 참고)
+            // jQuery 방식으로 요소를 여러개 선택하면
+            // 내부적으로 배열에 담겨서 선택되게 됨!! (그래서 0부터 세는것)
+
+            // > eq 메소드 같은 경우에는
+            //   나중에 반복문이랑도 함께 활용 가능하다!!
+
+        });
+    </script>
+    
+</body>
+</html>
