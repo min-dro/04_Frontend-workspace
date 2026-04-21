@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종합 응용 예시</title>
+
+    <!--
+        * 부트스트랩 (BootStrap)
+
+        - jQuery 기반으로 만들어진 웹 사이트를 좀 더 예쁘게 꾸밀 수 있도록 고안된
+          화면 구현 "프레임워크"
+          (프레임워크 : 이미 만들어진 코드를 주어진 "가이드라인" 에 따라 가져다 쓰는 것)
+
+        - 연동 시 마찬가지로 온라인 / 오프라인 방식 모두 가능하다!!
+          (미리 짜여진 .css, .js 파일들이)
+    -->
+
+    <!-- 부트스트랩 CDN 방식으로 연동하는 구문들 -->
+    <!-- 예쁘게 정의된 스타일들이 들어 있는 CSS 파일 -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- 간단한 동작들을 정의해둔 JS 파일 -->
+    <!-- 온라인 방식 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JS 파일의 경우 연동 순서가 어그러지면 안됨!! -->
+    
+    <style>
+        table {
+            width : 500px;
+            text-align : center;
+            border-spacing : 0px;
+            /* td 테두리들 사이의 간격을 0px 로 조걸해주는 속성 */
+        }
+
+        tbody>tr:hover {
+            /* background-color : lightgray; */
+            /* color : white; */
+            cursor: pointer;
+            /*
+                부트스트랩으로 가져온 스타일에 내가 더 덧붙여서 쓸 수 있음!!
+                단, 우선순위 주의하기!!
+            */
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>종합 응용 예시</h1>
+
+    <br>
+
+    <h2>게시판 리스트</h2>
+
+    <!-- 오늘은 프론트엔드로 흉내만 내보자!! -->
+
+    <br>
+
+    <!--
+       table 요소를 활용 
+
+       table 요소에 클래스 속성값으로 table 및 기타 클래스값을 주면
+       (튜토리얼에서 제시한대로) 스타일이 예쁘게 바뀜!!
+    -->
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>3</td>
+                <td>세번째 글 제목입니다.</td>
+                <td>user01</td>
+                <td>25</td>
+                <td>2021-09-21</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>두번째 게시글의 제목입니다.</td>
+                <td>user02</td>
+                <td>12</td>
+                <td>2021-09-16</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>첫번째 제목</td>
+                <td>admin</td>
+                <td>230</td>
+                <td>2021-08-30</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <!--
+        게시글을 나타내는 tbody>tr 에 마우스를 올렸을 때 효과는 CSS 로 이미 준 상태에서
+        게시글을 나타내는 tbodt>tr 를 클릭했을 때 효과 또한 주고싶음!!
+        - 보통의 웹사이트는 이 게시글을 나타내는 tr 을 클릭하면
+          해당 게시글의 상세페이지로 넘어가게 됨!! (서버 수업시간에 만들 것)
+
+        - 우리는 아직 벡엔드 연동이 안된 상태이기 때문에 해당 게시글의 상세페이지로 이동은 못하나
+          해당 클릭된 게시글의 정보를 각각 뽑아서 아래에 출력하는 기능까지는 구현 가능!!
+          (jQuery 방식)
+    -->
+        
+    <fieldset>
+        <legend>선택된 게시글 정보</legend>
+
+        <label id="l1">글번호</label> /
+        <label id="l2">제목</label> /
+        <label id="l3">작성자</label> /
+        <label id="l4">조회수</label> /
+        <label id="l5">작성일</label>
+
+    </fieldset>
+
+    <script>
+        $(document).ready(function() {
+
+            // tbody 의 tr 들에게 클릭이벤트 부여
+            // [tr, tr, tr]
+            $("tbody>tr").click(function() {
+
+                // console.log("잘 클릭 되나?");
+
+                // console.log($(this));
+                // > $(this) : 현재 클릭 당한 tr 요소 (target)
+
+                // console.log($(this).children());
+                // > [td, td, td, td, td]
+
+                // console.log($(this).children().eq(0));
+                // > 클릭된 tr 요소의 자손 td 들 중 첫번째 요소만 보고싶다면?
+                // > 어느 tr 요소를 클릭하든 간에
+                //   첫번째 자식 td 요소를 선택하면 "글번호" 를 담고 있는 td 가 선택됨
+
+                // console.log($(this).children().eq(0).text());
+                // > 그러면 그 첫번째 자식 td 요소의 시작태그와 종료태그 사이의 값을 보고싶다면
+                // > 항상 해당 게시글의 글번호가 출력됨!!
+
+                // [td, td, td, td, td]
+                $(this).children().each(function(index, el) {
+
+                    // console.log(index, el);
+                    // console.log(el.innerText); // 순수 자바스크립트 형식
+                    // console.log($(el).text()); // jQuery 방식
+
+                    // el 요소의 innerText 속성값을 뽑아서
+                    // 각각 l1 ~ #15 까지의 요소의 innerText 값으로 넣어서 출력
+                    $("#l" + (index + 1)).text($(el).text());
+
+                });
+                
+                // 참고)
+                // 나중에는 위의 each 메소드 대신 아래와 같이 구현할 것임!!
+                // location.href - "방금 클릭한 게시글의 상세보기페이지로";
+                // > 이 경우에도 해당 방금 클릭된 게시글의 글번호를 넘기면서 요청해야 하기 때문에 
+                //   결국 위에서 연습했던 $(this).children().eq(0).text() 를 이용해서
+                //   정롹한 해당 글번호만 추출할 줄 알아야 함!!
+
+            });
+            
+        });
+    </script>
+
+    <br><br>
+
+    <hr>
+
+    <!-- 부투스트랩 간단 연습 -->
+
+    <!-- 버튼 -->
+    <button class="btn btn-primary">로그인</button>
+    <button class="btn btn-secondary">로그인</button>
+    <button class="btn btn-outline-warning btn-lg">로그인</button>
+    <button class="btn btn-outline-danger btn-sm">로그인</button>
+    <button class="btn btn-info btn-block">로그인</button>
+
+    <br><br>
+
+    <!-- 다른 태그들 또한 적용 가능 -->
+    <a href="http://www.google.com" class="btn btn-danger">구글로</a>
+    <div onclick="location.href = 'http://www.naver.com';"
+         class="btn btn-success">네이버로</div>
+    <input type="reset" class="btn btn-dark">
+
+    <br><br>
+
+    <hr>
+
+    <!-- 입력양식 폼 -->
+
+    <h2>로그인</h2>
+
+    <form action="member/login" method="post">
+        <div class="form-group">
+            <label for="userId">ID:</label>
+            <input type="text" class="form-control" placeholder="Enter ID" id="userId">
+        </div>
+        <div class="form-group">
+            <label for="userPwd">Password:</label>
+            <input type="password" class="form-control" placeholder="Enter password" id="userPwd">
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"> 아이디 저장
+            </label>
+        </div>
+        <button type="submit" class="btn btn-dark">Login</button>
+    </form>
+
+    <!-- 원리와 사용방법만 제대로 알아둬도 항상 내 입맛대로 언제든지 샘플 코드 변경 가능 -->
+
+    <br><br>
+
+    <hr>
+
+    <!-- 모달창 -->
+
+    <!--
+        * Modal (모달)
+
+        - 팝업창 개념
+
+        * 모달 구현 원리
+
+        - div 요소를 이용해서 만든다.
+        - div 요소를 팝업창으로 꾸리고 평소에는 보이지 않도록 숨김 처리한다. (display : none;)
+        - 사용자가 팝업창을 띄우는 순간 보이게끔 처리한다 (display : block;) 
+    -->
+
+    <!-- 모달창을 열 수 있는 버튼 -->
+    <!--
+        data-toggle, data-target : 모달을 위한 부트스트랩 전용 속성
+        data-toggle="model" : 모달창을 여는 용도로 쓰겠다.
+        data-target="#모달창의아이디명" : 내가 열 모달창을 연결해주는 부분
+    -->
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginForm">
+        Open Login Form
+    </button>
+
+    <!-- 진짜 모달창 -->
+    <!-- The Modal -->
+    <div class="modal" id="loginForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                
+                <form action="member/login" method="post">
+                    <div class="form-group">
+                        <label for="userId">ID:</label>
+                        <input type="text" class="form-control" placeholder="Enter ID" id="userId">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPwd">Password:</label>
+                        <input type="password" class="form-control" placeholder="Enter password" id="userPwd">
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"> 아이디 저장
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block">Login</button>
+                </form>           
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--
+        부트스트랩 무료 탬플릿 제공 사이트 접속해보기 (구글 검색하면 많이 나옴)
+
+        https://startbootstrap.com/
+    -->
+
+</body>
+</html>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
